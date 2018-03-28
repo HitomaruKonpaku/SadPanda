@@ -1,0 +1,107 @@
+@font-face {
+	font-family: 'Roboto Condensed';
+	font-style: normal;
+	font-weight: 400;
+	src: local('Roboto Condensed Regular'), local('RobotoCondensed-Regular'), url(https://themes.googleusercontent.com/static/fonts/robotocondensed/v8/Zd2E9abXLFGSr9G3YK2MsFzqCfRpIA3W6ypxnPISCPA.woff) format('woff');
+}
+@font-face {
+	font-family: 'Roboto Condensed';
+	font-style: normal;
+	font-weight: 700;
+	src: local('Roboto Condensed Bold'), local('RobotoCondensed-Bold'), url(https://themes.googleusercontent.com/static/fonts/robotocondensed/v8/b9QBgL0iMZfDSpmcXcE8nCSLrGe-fkSRw2DeVgOoWcQ.woff) format('woff');
+}
+@font-face {
+	font-family: 'Roboto Condensed';
+	font-style: italic;
+	font-weight: 400;
+	src: local('Roboto Condensed Italic'), local('RobotoCondensed-Italic'), url(https://themes.googleusercontent.com/static/fonts/robotocondensed/v8/BP5K8ZAJv9qEbmuFp8RpJfHZ7IfZvqUgXLEMrfwTXOk.woff) format('woff');
+}
+@font-face {
+	font-family: 'Roboto Condensed';
+	font-style: italic;
+	font-weight: 700;
+	src: local('Roboto Condensed Bold Italic'), local('RobotoCondensed-BoldItalic'), url(https://themes.googleusercontent.com/static/fonts/robotocondensed/v8/mg0cGfGRUERshzBlvqxeAAm1Bdh5PCvFKhAPu2iWX-U.woff) format('woff');
+}
+
+body {
+	padding-top: 40px;
+	padding-bottom: 40px;
+	background-color: #34353b;
+	color: #DDDDDD;
+	font-family: 'Roboto Condensed', Verdana, Arial, Tahoma;
+}
+
+#main_container {
+    width:100%;
+    text-align:center;
+}
+
+#left {
+    float:left;
+    width:120px;
+	height:600px;
+}
+
+#center {
+    display: inline-block;
+    margin:0 auto;
+}
+
+#right {
+    float:right;
+    width:120px;
+	height:600px;
+}
+
+h2 {
+	font-family: 'Roboto Condensed', Verdana, Arial, Tahoma;
+	margin-top: 4px;
+}
+
+.alert {
+	margin-top: 8px;
+	margin-bottom: 0px;
+	max-width: 330px;
+	padding: 8px;
+}
+
+.form-signin {
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+}
+
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+	margin-bottom: 10px;
+}
+
+.form-signin .checkbox {
+	font-weight: normal;
+}
+
+.form-signin .form-control {
+	position: relative;
+	font-size: 16px;
+	height: auto;
+	padding: 10px;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.form-signin .form-control:focus {
+	z-index: 2;
+}
+
+.form-signin input[type="text"] {
+	margin-bottom: -1px;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.form-signin input[type="password"] {
+	margin-bottom: 10px;
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
