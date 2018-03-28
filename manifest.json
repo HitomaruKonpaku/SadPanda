@@ -57,5 +57,7 @@
     "short_name": "Sad Panda",
     "update_url": "https://clients2.google.com/service/update2/crx",
     "version": "2.5",
-    "web_accessible_resources": []
+    "web_accessible_resources": [
+        "img/*"
+    ]
 }

@@ -115,6 +115,9 @@ function makeLoginForm() {
 		'<div align="center" style="margin-top: 12px; font-size: 12px;">' +
 		'<a href="https://www.patreon.com/Swaps4" target="_blank">Presented by Swaps4</a><br />' +
 		'</div>' +
+		`<div><a href="https://github.com/HitomaruKonpaku/Sad-Panda" target="_blank">
+		<img src="${chrome.extension.getURL('img/GitHub-Mark-Light-64px.png')}" height="22"
+		></a></div>` +
 		'</div>' +
 		//				'</div>' +
 		'</div>' +
