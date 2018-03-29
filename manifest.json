@@ -8,13 +8,15 @@
         {
             "css": [
                 "css/bootstrap.min.css",
-                "css/login2.css"
+                "css/vue-on-toast.min.css",
+                "css/login.css"
             ],
             "js": [
-                "js/vue.min.js",
                 "js/jquery.min.js",
                 "js/bootstrap.min.js",
-                "js/ex2.js"
+                "js/vue.min.js",
+                "js/vue-on-toast.min.js",
+                "js/ex.js"
             ],
             "matches": [
                 "https://exhentai.org/",

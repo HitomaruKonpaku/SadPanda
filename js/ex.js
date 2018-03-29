@@ -1,157 +1,116 @@
-function loadData() {
-	var loadSaved = localStorage.getItem('exh_sddd');
+$(document).ready(() => {
+    var exSrc = $("img[src='" + document.URL + "']") // This is not right!
 
-	if (loadSaved == '1') {
-		$('#saveLogin').attr('checked', 'checked');
-	} else {
-		return; // We're not reviving!
-	}
+    if (!exSrc.length) {
+        return
+    }
 
-	var savedUser = localStorage.getItem('exh_user');
-	var savedPass = localStorage.getItem('exh_pass');
+    $('body').load(chrome.extension.getURL('html/ex.html'), function () {
+        var vue = new Vue({
+            el: '#app',
+            data: {
+                username: '',
+                password: '',
+                remember: false,
+                disabled: false,
+                githubMark: chrome.extension.getURL('img/GitHub-Mark-Light-64px.png'),
+            }, mounted: function () {
+                this.storageLoad()
+                this.toastSuccess('Ready!')
+            },
+            methods: {
+                toastPop: function (level, message) {
+                    var toast = {
+                        type: level,
+                        body: message,
+                        timeout: 4000,
+                    }
+                    this.$vueOnToast.pop(toast)
+                },
+                toastSuccess: function (message) {
+                    this.toastPop('success', message)
+                },
+                toastError: function (message) {
+                    this.toastPop('error', message)
+                },
+                login: function () {
+                    // Vue.prototype.$vueOnToast.pop('error', 'title', 'error toast')
 
-	if (savedUser != null && savedPass != null) {
-		$('#usernameInput').val(savedUser);
-		$('#passwordInput').val(savedPass);
-	}
-}
+                    this.uiDisable()
 
-function saveData() {
-	if ($('#saveLogin').is(':checked')) {
-		localStorage.setItem('exh_user', $('#usernameInput').val());
-		localStorage.setItem('exh_pass', $('#passwordInput').val());
-		localStorage.setItem('exh_sddd', '1');
-	} else {
-		localStorage.removeItem('exh_user');
-		localStorage.removeItem('exh_pass');
-		localStorage.removeItem('exh_sddd');
-	}
-}
+                    var username = encodeURIComponent(this.username)
+                    var password = encodeURIComponent(this.password)
 
-function displayError(e) {
-	$('#errorMsg').css('visibility', 'visible').html('<b>Error</b>: ' + e).hide().fadeIn('slow');
-}
+                    var url = 'https://forums.e-hentai.org/index.php?act=Login&CODE=01'
+                    var data = 'referer=https://forums.e-hentai.org/index.php&UserName=' + username + '&PassWord=' + password + '&CookieDate=1'
 
-function disableLoginForm(msg) {
-	$('#loginbutton').addClass('disabled');
-	$('#loginbutton').html(msg);
-	$('#usernameInput').prop('disabled', true);
-	$('#passwordInput').prop('disabled', true);
-	$('#saveLogin').prop('disabled', true);
-}
+                    $.post(url, data)
+                        .done((res) => {
+                            console.log(res)
+                            if (res.indexOf('Username or password incorrect') != -1) {
+                                vue.toastError('Login failure!')
+                            } else if (res.indexOf('You must already have registered for an account before you can log in') != -1) {
+                                vue.toastError('No account exists with name "' + username + '"')
+                            } else if (res.indexOf('You are now logged in as:') != -1) {
+                                vue.toastSuccess('You are now logged in!')
+                                chrome.runtime.sendMessage('cookieDataSet', vue.loginSuccess)
+                            } else {
+                                vue.toastError('Error parsing login result page!')
+                            }
+                        })
+                        .fail(() => {
+                            vue.toastError('Error sending POST request to forums.e-hentai.org!')
+                        })
+                        .always(() => {
+                            vue.uiEnable()
+                        })
+                },
+                loginSuccess: function (status) {
+                    if (status == 'ok') {
+                        this.storageSave()
+                        this.reload()
+                        return
+                    }
 
-function resetLoginForm() {
-	$('#loginbutton').removeClass('disabled');
-	$('#loginbutton').html('Sign in');
-	$('#usernameInput').prop('disabled', false);
-	$('#passwordInput').prop('disabled', false);
-	$('#saveLogin').prop('disabled', false);
-}
+                    this.toastError(status)
+                },
+                uiDisable: function () {
+                    this.disabled = true
+                },
+                uiEnable: function () {
+                    this.disabled = false
+                },
+                storageLoad: function () {
+                    var loadSaved = localStorage.getItem('exh_sddd')
+                    if (loadSaved == '1') {
+                        this.remember = true
+                    } else {
+                        return
+                    }
 
-function reloadPage() {
-	chrome.runtime.sendMessage('reload', function () { });
-}
+                    var savedUser = localStorage.getItem('exh_user')
+                    var savedPass = localStorage.getItem('exh_pass')
+                    if (savedUser != null && savedPass != null) {
+                        this.username = savedUser
+                        this.password = savedPass
+                    }
+                },
+                storageSave: function () {
+                    if (this.remember == true) {
+                        localStorage.setItem('exh_user', this.username)
+                        localStorage.setItem('exh_pass', this.password)
+                        localStorage.setItem('exh_sddd', '1')
+                        return
+                    }
 
-function onReturnMessage(status) {
-	if (status == 'ok') {
-		saveData();
-		reloadPage();
-	} else {
-		displayError(status);
-		resetLoginForm();
-	}
-}
-
-function handleLoginClick() {
-	disableLoginForm('Logging in...');
-
-	var username = encodeURIComponent($('#usernameInput').val());
-	var password = encodeURIComponent($('#passwordInput').val());
-
-	if (username.length == 0 || password.length == 0) {
-		displayError('Username and Password required!');
-		resetLoginForm();
-	} else {
-		$.post('https://forums.e-hentai.org/index.php?act=Login&CODE=01',
-			'referer=https://forums.e-hentai.org/index.php&UserName=' + username + '&PassWord=' + password + '&CookieDate=1', function (x) {
-				console.log(x)
-				if (x.indexOf('Username or password incorrect') != -1) {
-					displayError('Login failure!');
-					resetLoginForm();
-				} else if (x.indexOf('You must already have registered for an account before you can log in') != -1) {
-					displayError('No account exists with name "' + username + '"');
-					resetLoginForm();
-				} else if (x.indexOf('You are now logged in as:') != -1) {
-					chrome.runtime.sendMessage('cookieDataSet', onReturnMessage);
-				} else {
-					displayError('Error parsing login result page!');
-					resetLoginForm();
-				}
-			}).error(function () {
-				displayError('Error sending POST request to forums.e-hentai.org!');
-				resetLoginForm();
-			});
-	}
-}
-
-function makeLoginForm() {
-	var b = $('body');
-
-	b.html(
-		'<div id="main_container" style="padding:0; margin:0; width: 800px;">' +
-		// '<div id="left" align="left" width="120" height="600">' + 
-		// 	generateAdCode() +
-		// '</div>' +
-		'<div id="center" align="center">' +
-		b.html() +
-		'<div id="errorMsg" class="alert alert-danger" style="visibility:hidden; text-align: left;"><b>Error</b>: Hello!</div>' +
-		//				'<div class="container">' +
-		'<div class="form-signin">' +
-		'<input id="usernameInput" type="text" class="form-control" placeholder="Username" required autofocus>' +
-		'<input id="passwordInput" type="password" class="form-control" placeholder="Password" required>' +
-		'<label class="checkbox">' +
-		'<input id="saveLogin" type="checkbox" value="remember-me"> Remember me' +
-		'</label>' +
-		'<button id="loginbutton" class="btn btn-lg btn-success btn-block">Sign in</button>' +
-		'<div align="center" style="margin-top: 12px; font-size: 12px;">' +
-		'<a href="https://www.patreon.com/Swaps4" target="_blank">Presented by Swaps4</a><br />' +
-		'</div>' +
-		`<div><a href="https://github.com/HitomaruKonpaku/Sad-Panda" target="_blank">
-		<img src="${chrome.extension.getURL('img/GitHub-Mark-Light-64px.png')}" height="22"
-		></a></div>` +
-		'</div>' +
-		//				'</div>' +
-		'</div>' +
-		// '<div id="right" align="right" width="120" height="600">' + 
-		// 	generateAdCode() +
-		// '</div>' +
-		'</div>'
-	);
-
-	loadData();
-
-	$('#loginbutton').click(handleLoginClick);
-	$(document).keypress(function (e) {
-		if (e.which == 13) {
-			$('#loginbutton').click();
-		}
-	});
-}
-
-window.onload = function () {
-	var exSrc = $("img[src='" + document.URL + "']"); // This is not right!
-
-	if (exSrc.length) {
-		makeLoginForm();
-	}
-}
-
-/*
-$(document).ready(function() {
-	var exSrc = $("img[src='" + document.URL + "']"); // This is not right!
-	
-	if(exSrc.length) {
-		makeLoginForm();
-	}
-});
-*/
+                    localStorage.removeItem('exh_user')
+                    localStorage.removeItem('exh_pass')
+                    localStorage.removeItem('exh_sddd')
+                },
+                reload: function () {
+                    chrome.runtime.sendMessage('reload')
+                },
+            },
+        })
+    })
+})
