@@ -34,7 +34,7 @@
         }
     ],
     "description": "Sad Panda",
-    "homepage_url": "http://patreon.swaps4.com/",
+    "homepage_url": "https://github.com/HitomaruKonpaku/Sad-Panda",
     "icons": {
         "128": "img/appicon/128.png",
         "16": "img/appicon/16.png",
@@ -56,7 +56,7 @@
     ],
     "short_name": "Sad Panda",
     "update_url": "https://clients2.google.com/service/update2/crx",
-    "version": "2.5",
+    "version": "2.6",
     "web_accessible_resources": [
         "html/*",
         "js/*",
