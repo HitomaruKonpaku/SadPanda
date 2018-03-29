@@ -8,19 +8,18 @@
         {
             "css": [
                 "css/bootstrap.min.css",
-                "css/login.css"
+                "css/login2.css"
             ],
             "js": [
                 "js/vue.min.js",
                 "js/jquery.min.js",
                 "js/bootstrap.min.js",
-                "js/ex.js"
+                "js/ex2.js"
             ],
             "matches": [
                 "https://exhentai.org/",
                 "https://exhentai.org/#"
-            ],
-            "run_at": "document_start"
+            ]
         },
         {
             "js": [
@@ -29,8 +28,7 @@
             ],
             "matches": [
                 "https://exhentai.org/*"
-            ],
-            "run_at": "document_start"
+            ]
         }
     ],
     "description": "Sad Panda",
@@ -58,6 +56,8 @@
     "update_url": "https://clients2.google.com/service/update2/crx",
     "version": "2.5",
     "web_accessible_resources": [
+        "html/*",
+        "js/*",
         "img/*"
     ]
 }

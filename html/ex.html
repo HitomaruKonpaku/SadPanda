@@ -1,0 +1,27 @@
+<div id="app" class="container">
+    <div>
+        <img src="https://exhentai.org/">
+    </div>
+
+    <form @submit="login" onsubmit="return false">
+        <div class="form-group">
+            <input v-model="user" type="text" class="form-control" placeholder="Username" required autofocus v-bind:disabled="disable">
+        </div>
+        <div class="form-group">
+            <input v-model="pass" type="password" class="form-control" placeholder="Password" required v-bind:disabled="disable">
+        </div>
+        <div class="form-group">
+            <input v-model="remember" type="checkbox" class="form-check-input" id="remember-me" v-bind:disabled="disable">
+            <label class="form-check-label" for="remember-me">Remember me</label>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-lg btn-success btn-block" v-bind:disabled="disable">{{message}}</button>
+        </div>
+    </form>
+
+    <div>
+        <a href="https://github.com/HitomaruKonpaku/Sad-Panda" target="_blank">
+            <img :src="githubMark" alt="GitHut Mark" height="22">
+        </a>
+    </div>
+</div>

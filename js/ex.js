@@ -74,6 +74,7 @@ function handleLoginClick() {
 	} else {
 		$.post('https://forums.e-hentai.org/index.php?act=Login&CODE=01',
 			'referer=https://forums.e-hentai.org/index.php&UserName=' + username + '&PassWord=' + password + '&CookieDate=1', function (x) {
+				console.log(x)
 				if (x.indexOf('Username or password incorrect') != -1) {
 					displayError('Login failure!');
 					resetLoginForm();
