@@ -1,6 +1,5 @@
 $(document).ready(() => {
-    var exSrc = $("img[src='" + document.URL + "']") // This is not right!
-
+    var exSrc = $("img[src='" + document.URL + "']")
     if (!exSrc.length) {
         return
     }
@@ -34,8 +33,6 @@ $(document).ready(() => {
                     this.toastPop('error', message)
                 },
                 login: function () {
-                    // Vue.prototype.$vueOnToast.pop('error', 'title', 'error toast')
-
                     this.uiDisable()
 
                     var username = encodeURIComponent(this.username)
@@ -46,14 +43,16 @@ $(document).ready(() => {
 
                     $.post(url, data)
                         .done((res) => {
-                            console.log(res)
+                            if (res.indexOf('You are now logged in as:') != -1) {
+                                vue.toastSuccess('You are now logged in!')
+                                chrome.runtime.sendMessage('cookieDataSet', vue.loginSuccess)
+                                return
+                            }
+
                             if (res.indexOf('Username or password incorrect') != -1) {
                                 vue.toastError('Login failure!')
                             } else if (res.indexOf('You must already have registered for an account before you can log in') != -1) {
                                 vue.toastError('No account exists with name "' + username + '"')
-                            } else if (res.indexOf('You are now logged in as:') != -1) {
-                                vue.toastSuccess('You are now logged in!')
-                                chrome.runtime.sendMessage('cookieDataSet', vue.loginSuccess)
                             } else {
                                 vue.toastError('Error parsing login result page!')
                             }
