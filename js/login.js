@@ -1,10 +1,18 @@
 $(document).ready(() => {
-    var exSrc = $("img[src='" + document.URL + "']")
-    if (!exSrc.length) {
+    if (!isLoggedIn()) {
         return
     }
+    exSignIn()
+})
 
-    $('body').load(chrome.extension.getURL('html/ex.html'), function () {
+function isLoggedIn() {
+    var panda = $(`img[src="${document.URL}"]`)
+    var check = panda.length
+    return check
+}
+
+function exSignIn() {
+    $('body').load(chrome.extension.getURL('html/login.html'), () => {
         var vue = new Vue({
             el: '#app',
             data: {
@@ -12,7 +20,11 @@ $(document).ready(() => {
                 password: '',
                 remember: false,
                 disabled: false,
-                githubMark: chrome.extension.getURL('img/GitHub-Mark-Light-64px.png'),
+                image: {
+                    logo: {
+                        github: chrome.extension.getURL('img/GitHub-Mark-Light-64px.png'),
+                    },
+                },
             }, mounted: function () {
                 this.storageLoad()
                 this.toastSuccess('Ready!')
@@ -112,4 +124,4 @@ $(document).ready(() => {
             },
         })
     })
-})
+}

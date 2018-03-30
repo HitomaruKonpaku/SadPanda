@@ -4,46 +4,20 @@
             "js/background.js"
         ]
     },
-    "content_scripts": [
-        {
-            "css": [
-                "css/bootstrap.min.css",
-                "css/vue-on-toast.min.css",
-                "css/login.css"
-            ],
-            "js": [
-                "js/jquery.min.js",
-                "js/bootstrap.min.js",
-                "js/vue.min.js",
-                "js/vue-on-toast.min.js",
-                "js/ex.js"
-            ],
-            "matches": [
-                "https://exhentai.org/",
-                "https://exhentai.org/#"
-            ]
-        },
-        {
-            "js": [
-                "js/jquery.min.js",
-                "js/logout.js"
-            ],
-            "matches": [
-                "https://exhentai.org/*"
-            ]
-        }
-    ],
-    "description": "Sad Panda",
-    "homepage_url": "https://github.com/HitomaruKonpaku/Sad-Panda",
-    "icons": {
-        "128": "img/appicon/128.png",
-        "16": "img/appicon/16.png",
-        "32": "img/appicon/32.png",
-        "48": "img/appicon/48.png"
-    },
-    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDmqpO6VORsanajZoTH/71zozAem6J0sCWzG59MhZnH6G1hRbCyldgD87bdTIk0BMbQQVNiph9dhxCdm+4O+HfKf0G0ml3ygfFtHBYOP8VlP4/IqtGSIBuoO3+gJ8ndgoHd+S0QUexgwPtij3fqKwAEqw5hTdSjsK2029DL5W4I5QIDAQAB",
     "manifest_version": 2,
     "name": "Sad Panda",
+    "version": "2.6",
+    "description": "Access to ExHentai",
+    "homepage_url": "https://github.com/HitomaruKonpaku/Sad-Panda",
+    "icons": {
+        "16": "ico/16.png",
+        "32": "ico/32.png",
+        "48": "ico/48.png",
+        "64": "ico/64.png",
+        "128": "ico/128.png"
+    },
+    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDmqpO6VORsanajZoTH/71zozAem6J0sCWzG59MhZnH6G1hRbCyldgD87bdTIk0BMbQQVNiph9dhxCdm+4O+HfKf0G0ml3ygfFtHBYOP8VlP4/IqtGSIBuoO3+gJ8ndgoHd+S0QUexgwPtij3fqKwAEqw5hTdSjsK2029DL5W4I5QIDAQAB",
+    "update_url": "https://clients2.google.com/service/update2/crx",
     "offline_enabled": false,
     "permissions": [
         "contentSettings",
@@ -54,9 +28,38 @@
         "*://*.e-hentai.org/*",
         "*://exhentai.org/*"
     ],
-    "short_name": "Sad Panda",
-    "update_url": "https://clients2.google.com/service/update2/crx",
-    "version": "2.6",
+    "content_scripts": [
+        {
+            "matches": [
+                "https://exhentai.org/",
+                "https://exhentai.org/#"
+            ],
+            "js": [
+                "js/jquery.min.js",
+                "js/bootstrap.min.js",
+                "js/vue.min.js",
+                "js/vue-on-toast.min.js",
+                "js/login.js"
+            ],
+            "css": [
+                "css/bootstrap.min.css",
+                "css/vue-on-toast.min.css",
+                "css/login.css"
+            ]
+        },
+        {
+            "matches": [
+                "https://exhentai.org/*"
+            ],
+            "js": [
+                "js/jquery.min.js",
+                "js/logout.js"
+            ],
+            "css": [
+                "css/logout.css"
+            ]
+        }
+    ],
     "web_accessible_resources": [
         "html/*",
         "js/*",

@@ -1,17 +1,24 @@
-$(document).ready(function () {
-	var menu = $('#nb');
+$(document).ready(() => {
+	exSignOut()
+})
 
-	if (!menu.length) {
-		return;
+function exSignOut() {
+	var menu = $('#nb')
+	if (!menu) {
+		return
 	}
 
-	menu.html(menu.html() +
-		'<img src="http://st.exhentai.net/img/mr.gif" alt="">' +
-		' <a id="haruhichanLogout" href="#">Logout</a>');
+	var img = $($('img', menu)[0]).clone()
+	var a = $($('a', menu)[0]).clone()
+		.html('Sign out')
+		.attr('href', '#')
+		.attr('id', 'haruhichanSignOut')
+		.click(() => {
+			console.log('Sign out...')
+			chrome.runtime.sendMessage('deleteAllCookies', function () {
+				chrome.runtime.sendMessage('reload', function () { })
+			})
+		})
 
-	$('#haruhichanLogout').click(function () {
-		chrome.runtime.sendMessage('deleteAllCookies', function () {
-			chrome.runtime.sendMessage('reload', function () { });
-		});
-	});
-});
+	menu.append(img, a)
+}
