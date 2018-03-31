@@ -29,22 +29,24 @@ function setHentaiCookies() {
 }
 
 chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
-	if (request == 'cookieDataSet') {
-		sendResponse((setHentaiCookies() ? 'ok' : 'Unable to set cookies'))
-	} else if (request == 'deleteAllCookies') {
-		chrome.cookies.remove({ name: "yay", url: "https://exhentai.org/" }, function () { })
-		chrome.cookies.remove({ name: "ipb_anonlogin", url: "https://exhentai.org/" }, function () { })
-		chrome.cookies.remove({ name: "ipb_member_id", url: "https://exhentai.org/" }, function () { })
-		chrome.cookies.remove({ name: "ipb_pass_hash", url: "https://exhentai.org/" }, function () { })
-		chrome.cookies.remove({ name: "ipb_session_id", url: "https://exhentai.org/" }, function () { })
-		chrome.cookies.remove({ name: "ipb_anonlogin", url: "http://e-hentai.org/" }, function () { })
-		chrome.cookies.remove({ name: "ipb_member_id", url: "http://e-hentai.org/" }, function () { })
-		chrome.cookies.remove({ name: "ipb_pass_hash", url: "http://e-hentai.org/" }, function () { })
-		chrome.cookies.remove({ name: "ipb_session_id", url: "http://e-hentai.org/" }, function () { })
-		sendResponse()
-	} else if (request == 'reload') {
+	if (request == 'reload') {
 		chrome.tabs.getSelected(null, function (tab) {
 			chrome.tabs.reload(tab.id)
 		})
+	} else if (request == 'cookieDataSet') {
+		sendResponse((setHentaiCookies() ? 'ok' : 'Unable to set cookies'))
+	} else if (request == 'deleteAllCookies') {
+		var urlEx = 'https://exhentai.org/'
+		var urlEh = 'http://e-hentai.org/'
+		chrome.cookies.remove({ name: 'yay', url: urlEx }, function () { })
+		chrome.cookies.remove({ name: 'ipb_anonlogin', url: urlEx }, function () { })
+		chrome.cookies.remove({ name: 'ipb_member_id', url: urlEx }, function () { })
+		chrome.cookies.remove({ name: 'ipb_pass_hash', url: urlEx }, function () { })
+		chrome.cookies.remove({ name: 'ipb_session_id', url: urlEx }, function () { })
+		chrome.cookies.remove({ name: 'ipb_anonlogin', url: urlEh }, function () { })
+		chrome.cookies.remove({ name: 'ipb_member_id', url: urlEh }, function () { })
+		chrome.cookies.remove({ name: 'ipb_pass_hash', url: urlEh }, function () { })
+		chrome.cookies.remove({ name: 'ipb_session_id', url: urlEh }, function () { })
+		sendResponse()
 	}
 })
