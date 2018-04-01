@@ -1,9 +1,4 @@
 {
-    "background": {
-        "scripts": [
-            "js/background.js"
-        ]
-    },
     "manifest_version": 2,
     "name": "Sad Panda",
     "version": "2.6",
@@ -16,18 +11,11 @@
         "64": "ico/64.png",
         "128": "ico/128.png"
     },
-    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDmqpO6VORsanajZoTH/71zozAem6J0sCWzG59MhZnH6G1hRbCyldgD87bdTIk0BMbQQVNiph9dhxCdm+4O+HfKf0G0ml3ygfFtHBYOP8VlP4/IqtGSIBuoO3+gJ8ndgoHd+S0QUexgwPtij3fqKwAEqw5hTdSjsK2029DL5W4I5QIDAQAB",
-    "update_url": "https://clients2.google.com/service/update2/crx",
-    "offline_enabled": false,
-    "permissions": [
-        "contentSettings",
-        "cookies",
-        "tabs",
-        "notifications",
-        "*://e-hentai.org/*",
-        "*://*.e-hentai.org/*",
-        "*://exhentai.org/*"
-    ],
+    "background": {
+        "scripts": [
+            "js/background.js"
+        ]
+    },
     "content_scripts": [
         {
             "matches": [
@@ -59,6 +47,16 @@
                 "css/logout.css"
             ]
         }
+    ],
+    "offline_enabled": false,
+    "permissions": [
+        "contentSettings",
+        "cookies",
+        "tabs",
+        "notifications",
+        "*://e-hentai.org/*",
+        "*://*.e-hentai.org/*",
+        "*://exhentai.org/*"
     ],
     "web_accessible_resources": [
         "html/*",
