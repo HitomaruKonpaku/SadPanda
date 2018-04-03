@@ -1,5 +1,5 @@
 # Sad-Panda
-Chromium extension to access ExHentai / Backup
+Chromium extension to access ExHentai
 
 # Instalation
 * Clone this repository or download the ZIP and extract it
