@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
     "name": "Sad Panda",
-    "version": "2.7",
-    "description": "Access to ExHentai",
+    "version": "3.0",
+    "description": "Easy access to ExHentai",
     "icons": {
         "16": "ico/16.png",
         "32": "ico/32.png",
@@ -12,7 +12,7 @@
     },
     "background": {
         "scripts": [
-            "js/background.js"
+            "src/js/background.js"
         ],
         "persistent": false
     },
@@ -23,16 +23,16 @@
                 "*://exhentai.org/#"
             ],
             "js": [
-                "js/jquery.min.js",
-                "js/bootstrap.min.js",
-                "js/vue.min.js",
-                "js/vue-on-toast.min.js",
-                "js/login.js"
+                "cdn/js/jquery.min.js",
+                "cdn/js/bootstrap.min.js",
+                "cdn/js/vue.min.js",
+                "cdn/js/vue-on-toast.min.js",
+                "src/js/login.js"
             ],
             "css": [
-                "css/bootstrap.min.css",
-                "css/vue-on-toast.min.css",
-                "css/login.css"
+                "cdn/css/bootstrap.min.css",
+                "cdn/css/vue-on-toast.min.css",
+                "src/css/login.css"
             ]
         },
         {
@@ -40,17 +40,18 @@
                 "*://exhentai.org/*"
             ],
             "js": [
-                "js/jquery.min.js",
-                "js/logout.js"
+                "cdn/js/jquery.min.js",
+                "src/js/logout.js"
             ],
             "css": [
-                "css/logout.css"
+                "src/css/logout.css"
             ]
         }
     ],
     "homepage_url": "https://github.com/HitomaruKonpaku/Sad-Panda",
     "incognito": "split",
     "permissions": [
+        "activeTab",
         "contentSettings",
         "cookies",
         "tabs",
@@ -60,8 +61,7 @@
         "*://exhentai.org/*"
     ],
     "web_accessible_resources": [
-        "html/*",
-        "js/*",
-        "img/*"
+        "cdn/*",
+        "src/*"
     ]
 }
