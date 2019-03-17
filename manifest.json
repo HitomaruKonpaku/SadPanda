@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Sad Panda",
-    "version": "3.0",
+    "version": "3.1",
     "description": "Easy access to ExHentai",
     "icons": {
         "16": "ico/16.png",
@@ -11,10 +11,10 @@
         "128": "ico/128.png"
     },
     "background": {
+        "persistent": false,
         "scripts": [
             "src/js/background.js"
-        ],
-        "persistent": false
+        ]
     },
     "content_scripts": [
         {
@@ -48,8 +48,6 @@
             ]
         }
     ],
-    "homepage_url": "https://github.com/HitomaruKonpaku/Sad-Panda",
-    "incognito": "split",
     "permissions": [
         "activeTab",
         "contentSettings",
@@ -63,5 +61,7 @@
     "web_accessible_resources": [
         "cdn/*",
         "src/*"
-    ]
+    ],
+    "homepage_url": "https://github.com/HitomaruKonpaku/Sad-Panda",
+    "incognito": "split"
 }

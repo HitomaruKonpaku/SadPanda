@@ -78,6 +78,7 @@ function exSignIn() {
                 vue.toastError('No account exists with name "' + username + '"')
               } else {
                 vue.toastError('Error parsing login result page!')
+                chrome.runtime.sendMessage('cookieDataSet', vue.loginSuccess)
               }
             })
             .fail(() => {
