@@ -130,4 +130,8 @@ function loadApp() {
     }
   })
   console.log(app)
+
+  $('.toast-container')
+    .removeClass('vot-top-right')
+    .addClass('vot-top-left')
 }
