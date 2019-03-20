@@ -1,24 +1,17 @@
-$(document).ready(() => {
-  exSignOut()
-})
+$(document).ready(onReady)
 
-function exSignOut() {
-  let menu = $('#nb')
+function onReady() {
+  const menu = $('#nb')
   if (!menu) {
     return
   }
 
-  let img = $($('img', menu)[0]).clone()
-  let a = $($('a', menu)[0]).clone()
-    .html('Sign out')
-    .attr('href', '#')
-    .attr('id', 'haruhichanSignOut')
-    .click(() => {
-      console.log('Sign out...')
-      chrome.runtime.sendMessage('deleteAllCookies', function () {
-        chrome.runtime.sendMessage('reload', function () { })
+  menu.append($('<div/>')
+    .append($('<a/>')
+      .html('Sign out')
+      .attr('href', '#')
+      .click(() => {
+        chrome.runtime.sendMessage({ action: 'logout' })
       })
-    })
-
-  menu.append(img, a)
+    ))
 }

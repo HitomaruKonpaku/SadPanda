@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
     "name": "Sad Panda",
-    "version": "3.1",
+    "version": "4.0",
     "description": "Easy access to ExHentai",
     "icons": {
         "16": "ico/16.png",
@@ -24,15 +24,12 @@
             ],
             "js": [
                 "cdn/js/jquery.min.js",
-                "cdn/js/bootstrap.min.js",
                 "cdn/js/vue.min.js",
                 "cdn/js/vue-on-toast.min.js",
                 "src/js/login.js"
             ],
             "css": [
-                "cdn/css/bootstrap.min.css",
-                "cdn/css/vue-on-toast.min.css",
-                "src/css/login.css"
+                "cdn/css/vue-on-toast.min.css"
             ]
         },
         {
@@ -50,13 +47,11 @@
     ],
     "permissions": [
         "activeTab",
-        "contentSettings",
         "cookies",
         "tabs",
-        "notifications",
+        "*://exhentai.org/*",
         "*://e-hentai.org/*",
-        "*://*.e-hentai.org/*",
-        "*://exhentai.org/*"
+        "*://*.e-hentai.org/*"
     ],
     "web_accessible_resources": [
         "cdn/*",
