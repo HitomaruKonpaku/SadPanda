@@ -1,8 +1,8 @@
-$(document).ready(onReady)
+$(document).ready(onReady_In)
 
-function onReady() {
+function onReady_In() {
   //
-  console.log('SadPanda ready!')
+  console.log('SadPanda IN ready!')
   //
   const panda = $(`img[src="${document.URL}"]`)
   const pandaLength = panda.length
@@ -30,6 +30,7 @@ function createApp() {
 }
 
 function loadApp() {
+  // Vue app
   const app = new Vue({
     el: '#app',
     data: {
@@ -74,15 +75,17 @@ function loadApp() {
         }
         const username = localStorage.getItem('exh_user')
         const password = localStorage.getItem('exh_pass')
-        if (username && password) {
+        if (username) {
           this.username = username
-          this.password = password
+        }
+        if (password) {
+          this.password = window.atob(password)
         }
       },
       saveStorage() {
-        if (this.remember === true) {
+        if (this.remember) {
           localStorage.setItem('exh_user', this.username)
-          localStorage.setItem('exh_pass', this.password)
+          localStorage.setItem('exh_pass', window.btoa(this.password))
           localStorage.setItem('exh_sddd', '1')
           return
         }
@@ -131,6 +134,7 @@ function loadApp() {
   })
   console.log(app)
 
+  // Custom
   $('.toast-container')
     .removeClass('vot-top-right')
     .addClass('vot-top-left')

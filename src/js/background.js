@@ -4,6 +4,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   const data = Object(message.data)
   // LOGIN
   if (action === 'login') {
+    deleteCookies();
     (async () => {
       try {
         //
