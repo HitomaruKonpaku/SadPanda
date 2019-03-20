@@ -1,4 +1,4 @@
-# Sad-Panda
+# SadPanda
 Chromium extension to access ExHentai
 
 # Instalation
@@ -8,4 +8,4 @@ Chromium extension to access ExHentai
 * Click on `Load Unpacked` and navigate to the folder where you have the extension
 * Navigate to https://exhentai.org/
 * Log in and enjoy!
- 
+
