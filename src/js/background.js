@@ -2,6 +2,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   //
   const action = String(message.action).toLowerCase().trim()
   const data = Object(message.data)
+  const tabId = sender.tab.id
   // LOGIN
   if (action === 'login') {
     deleteCookies();
@@ -20,7 +21,7 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         if (content.includes('You are now logged in as')) {
           sendResponse({ success: 'You are now logged in!' })
           saveCookies()
-          reload()
+          reload(tabId)
           return
         }
         // Fail
@@ -41,11 +42,15 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
   // LOGOUT
   if (action === 'logout') {
     deleteCookies()
-    reload()
+    reload(tabId)
   }
 })
 
-function reload() {
+function reload(tabId) {
+  if (tabId) {
+    chrome.tabs.reload(tabId)
+    return
+  }
   chrome.tabs.query({ active: true }, function (tabs) {
     if (!tabs || !tabs.length) return
     const id = tabs[0].id
