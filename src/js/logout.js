@@ -1,20 +1,41 @@
-$(document).ready(onReady_Out)
+(function () {
+  'use strict'
 
-function onReady_Out() {
-  //
-  console.log('SadPanda OUT ready!')
-  //
-  const menu = $('#nb')
-  if (!menu) {
-    return
+  $(document).ready(() => {
+    if (!window.SadPanda.isLoggedIn) return
+    console.log('SadPanda#LogOut')
+    run()
+  })
+
+  function run() {
+    loadCSS()
+    loadUI()
   }
-  //
-  menu.append($('<div/>')
-    .append($('<a/>')
-      .html('Sign out')
-      .attr('href', '#')
-      .click(() => {
-        chrome.runtime.sendMessage({ action: 'logout' })
-      })
-    ))
-}
+
+  function loadCSS() {
+    const files = [
+      'src/css/logout.css'
+    ]
+    files.forEach(v => {
+      $('<link/>', {
+        rel: 'stylesheet',
+        type: 'text/css',
+        href: chrome.runtime.getURL(v)
+      }).appendTo('head')
+    })
+  }
+
+  function loadUI() {
+    const menu = $('#nb')
+    // console.log(menu)
+    menu.append($('<div/>')
+      .append($('<a/>')
+        .html('Sign out')
+        .attr('href', '#')
+        .click(() => {
+          chrome.runtime.sendMessage({ action: 'logout' })
+        })
+      ))
+  }
+
+})()

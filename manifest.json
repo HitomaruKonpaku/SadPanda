@@ -1,62 +1,49 @@
 {
-    "manifest_version": 2,
-    "name": "Sad Panda",
-    "version": "4.1",
-    "description": "Easy access to ExHentai",
-    "icons": {
-        "16": "ico/16.png",
-        "32": "ico/32.png",
-        "48": "ico/48.png",
-        "64": "ico/64.png",
-        "128": "ico/128.png"
-    },
-    "background": {
-        "persistent": false,
-        "scripts": [
-            "src/js/background.js"
-        ]
-    },
-    "content_scripts": [
-        {
-            "matches": [
-                "*://exhentai.org/",
-                "*://exhentai.org/#"
-            ],
-            "js": [
-                "cdn/js/jquery.min.js",
-                "cdn/js/vue.min.js",
-                "cdn/js/vue-on-toast.min.js",
-                "src/js/login.js"
-            ],
-            "css": [
-                "cdn/css/vue-on-toast.min.css"
-            ]
-        },
-        {
-            "matches": [
-                "*://exhentai.org/*"
-            ],
-            "js": [
-                "cdn/js/jquery.min.js",
-                "src/js/logout.js"
-            ],
-            "css": [
-                "src/css/logout.css"
-            ]
-        }
-    ],
-    "permissions": [
-        "activeTab",
-        "cookies",
-        "tabs",
-        "*://exhentai.org/*",
-        "*://e-hentai.org/*",
-        "*://*.e-hentai.org/*"
-    ],
-    "web_accessible_resources": [
-        "cdn/*",
-        "src/*"
-    ],
-    "homepage_url": "https://github.com/HitomaruKonpaku/SadPanda",
-    "incognito": "split"
+  "manifest_version": 2,
+  "name": "Sad Panda",
+  "version": "4.2",
+  "description": "Easy access to ExHentai",
+  "icons": {
+    "16": "ico/16.png",
+    "32": "ico/32.png",
+    "48": "ico/48.png",
+    "64": "ico/64.png",
+    "128": "ico/128.png"
+  },
+  "background": {
+    "persistent": false,
+    "scripts": [
+      "src/js/background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://exhentai.org/*"
+      ],
+      "js": [
+        "cdn/js/jquery.min.js",
+        "cdn/js/vue.min.js",
+        "cdn/js/vue-on-toast.min.js",
+        "src/js/index.js",
+        "src/js/login.js",
+        "src/js/logout.js"
+      ],
+      "css": []
+    }
+  ],
+  "permissions": [
+    "activeTab",
+    "cookies",
+    "tabs",
+    "*://exhentai.org/*",
+    "*://e-hentai.org/*",
+    "*://*.e-hentai.org/*"
+  ],
+  "web_accessible_resources": [
+    "cdn/*",
+    "src/*"
+  ],
+  "homepage_url": "https://github.com/HitomaruKonpaku/SadPanda",
+  "incognito": "split"
 }

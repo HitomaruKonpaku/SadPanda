@@ -1,19 +1,23 @@
 .container {
-    width: 290px;
-    margin: auto;
-    color: #FFF;
-    text-align: center;
+  width: 290px;
+  margin: auto;
+  color: #FFF;
+  text-align: center;
 }
 
 .container>*+* {
-    margin-top: 7px;
+  margin-top: 7px;
 }
 
-form {
-    margin-bottom: auto;
+.container form {
+  margin-bottom: auto;
 }
 
 .form-group,
 .form-check {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
+}
+
+.form-check input {
+  margin-top: 0.43em;
 }
