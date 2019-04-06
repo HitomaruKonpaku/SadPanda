@@ -1,17 +1,19 @@
 {
+  "parserOptions": {
+    "ecmaVersion": 2018
+  },
   "env": {
     "es6": true,
     "browser": true,
-    "jquery": true,
-    "webextensions": true
-  },
-  "extends": "eslint:recommended",
-  "parserOptions": {
-    "ecmaVersion": 2018
+    "webextensions": true,
+    "jquery": true
   },
   "globals": {
     "Vue": "readonly"
   },
+  "extends": [
+    "eslint:recommended"
+  ],
   "rules": {
     "indent": [
       "error",
@@ -45,19 +47,25 @@
     "comma-dangle": "error",
     "comma-spacing": "error",
     "comma-style": "error",
+    "computed-property-spacing": "error",
     "eol-last": "error",
     "func-call-spacing": "error",
+    "key-spacing": "error",
+    "keyword-spacing": "error",
     "no-console": "off",
     "no-empty": "warn",
+    "no-empty-function": "warn",
     "no-floating-decimal": "error",
     "no-inline-comments": "error",
     "no-multi-spaces": "error",
     "no-octal": "error",
     "no-process-exit": "error",
+    "no-return-await": "error",
     "no-trailing-spaces": "error",
     "no-undef": "error",
     "no-unreachable": "error",
     "no-unused-vars": "warn",
+    "no-useless-return": "warn",
     "no-var": "error",
     "semi-spacing": "error",
     "semi-style": "error",
