@@ -20,8 +20,10 @@ chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
         // Success
         if (content.includes('You are now logged in as')) {
           sendResponse({ success: 'You are now logged in!' })
-          saveCookies()
-          reload(tabId)
+          setTimeout(() => {
+            saveCookies()
+            reload(tabId)
+          })
           return
         }
         // Fail
@@ -68,17 +70,21 @@ function cookieExpireTime() {
 
 function saveCookies() {
   chrome.cookies.getAll({ domain: '.e-hentai.org' }, function (cookies) {
+    console.log(cookies)
     cookies.forEach(cookie => {
-      if (['ipb_', 'uconfig'].some(v => cookie.name.includes(v))) {
-        chrome.cookies.set({
-          url: 'https://exhentai.org/',
-          name: cookie.name,
-          value: cookie.value,
-          domain: '.exhentai.org',
-          path: '/',
-          expirationDate: cookieExpireTime()
-        })
+      if (!['ipb_', 'uconfig'].some(v => cookie.name.includes(v))) {
+        return
       }
+      const cookieNew = {
+        url: 'https://exhentai.org/',
+        name: cookie.name,
+        value: cookie.value,
+        domain: '.exhentai.org',
+        path: '/',
+        // expirationDate: cookieExpireTime()
+        expirationDate: cookie.expirationDate
+      }
+      chrome.cookies.set(cookieNew)
     })
   })
 }
