@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Sad Panda",
-  "version": "4.3",
+  "version": "5.0",
   "description": "Easy access to ExHentai",
   "icons": {
     "16": "ico/16.png",
@@ -23,13 +23,12 @@
       ],
       "js": [
         "cdn/js/jquery.min.js",
-        "cdn/js/vue.min.js",
-        "cdn/js/vue-on-toast.min.js",
-        "src/js/index.js",
+        "cdn/js/jquery.toast.min.js",
+        "cdn/js/vue.global.prod.js",
+        "src/js/inject.js",
         "src/js/login.js",
         "src/js/logout.js"
-      ],
-      "css": []
+      ]
     }
   ],
   "permissions": [

@@ -1,63 +1,60 @@
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse) {
-  //
-  const action = String(message.action).toLowerCase().trim()
-  const data = Object(message.data)
-  const tabId = sender.tab.id
-  // LOGIN
-  if (action === 'login') {
-    deleteCookies();
-    (async () => {
-      try {
-        //
-        const res = await fetch(data.url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-          body: data.data
-        })
-        //
-        const content = await res.text()
-        console.log(content)
-        // Success
-        if (content.includes('You are now logged in as')) {
-          sendResponse({ success: 'You are now logged in!' })
-          setTimeout(() => {
-            saveCookies()
-            reload(tabId)
-          })
-          return
-        }
-        // Fail
-        if (content.includes('Username or password incorrect')) {
-          sendResponse({ fail: 'Username or password incorrect!' })
-        } else if (content.includes('You must already have registered for an account before you can log in')) {
-          sendResponse({ fail: 'Username does not exist!' })
-        } else {
-          sendResponse({ fail: 'Error parsing login result page!' })
-        }
-      } catch (err) {
-        console.error(err)
-        sendResponse({ error: err.message })
-      }
-    })()
-    return true
-  }
-  // LOGOUT
-  if (action === 'logout') {
-    deleteCookies()
-    reload(tabId)
+  console.log(message)
+  const action = String(message.action).trim().toUpperCase()
+  switch (action) {
+    case 'LOGIN':
+      login(message, sender, sendResponse)
+      return true
+    case 'LOGOUT':
+      logout(sender)
+      return
   }
 })
 
-function reload(tabId) {
-  if (tabId) {
-    chrome.tabs.reload(tabId)
-    return
+async function login(message, sender, sendResponse) {
+  deleteCookies()
+  const url = message.data.url
+  const body = message.data.body
+  try {
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body
+    })
+    const content = await response.text()
+    console.log(content)
+    if (content.includes('You are now logged in as')) {
+      sendResponse({})
+      setTimeout(() => {
+        saveCookies()
+        const tabId = sender.tab.id
+        chrome.tabs.sendMessage(tabId, { action: 'RELOAD' })
+      })
+      return
+    }
+    if (content.includes('Username or password incorrect')) {
+      throw new Error('Username or password incorrect!')
+    }
+    sendResponse({
+      error: {
+        message: 'Authentication error!',
+        redirect: 'https://forums.e-hentai.org/index.php?act=Login&CODE=01'
+      }
+    })
+  } catch (error) {
+    sendResponse({
+      error: {
+        name: error.name,
+        message: error.message
+      }
+    })
   }
-  chrome.tabs.query({ active: true }, function (tabs) {
-    if (!tabs || !tabs.length) return
-    const id = tabs[0].id
-    chrome.tabs.reload(id)
-  })
+}
+
+function logout(sender) {
+  deleteCookies()
+  const tabId = sender.tab.id
+  chrome.tabs.sendMessage(tabId, { action: 'RELOAD' })
 }
 
 function unixTime() {
