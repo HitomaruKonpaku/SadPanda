@@ -1,23 +1,49 @@
-.container {
-  width: 290px;
-  margin: auto;
-  color: #FFF;
-  text-align: center;
+html,
+body {
+  height: 100%;
 }
 
-.container>*+* {
-  margin-top: 7px;
+body {
+  background: #34353b;
 }
 
-.container form {
-  margin-bottom: auto;
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
 }
 
-.form-group,
-.form-check {
-  margin-bottom: 5px;
+.app form {
+  max-width: 300px;
+  min-width: 150px;
+  margin: 16px;
+  color: #fff;
 }
 
-.form-check input {
-  margin-top: 0.43em;
+.app form img {
+  max-width: 100%;
+}
+
+.app form .form-group {
+  margin-bottom: 8px;
+}
+
+.app form .form-check {
+  display: flex;
+  align-items: center;
+}
+
+.app form .form-check .form-check-input {
+  margin-top: 0;
+}
+
+.app form .form-check .custom-control-input:checked ~ .custom-control-label::before {
+  background: var(--success);
+  border-color: var(--success);
+}
+
+.jq-toast-single {
+  font-size: 14px;
+  line-height: normal;
 }

@@ -1,22 +1,26 @@
-(function () {
-  'use strict'
+((global, factory) => {
+  factory(global)
+})(this, global => {
+  console.debug('SadPanda#LogOut')
 
-  $(document).ready(() => {
-    if (!window.SadPanda.isLoggedIn) return
-    console.log('SadPanda#LogOut')
-    run()
+  global.SadPanda.logout = () => logout()
+
+  const cssPaths = ['src/css/logout.css']
+
+  jQuery(() => {
+    if (!global.SadPanda.isAuth) {
+      return
+    }
+    loadStyles()
+    loadMenu()
   })
 
-  function run() {
-    loadCSS()
-    loadUI()
+  function logout() {
+    chrome.runtime.sendMessage({ action: 'LOGOUT' })
   }
 
-  function loadCSS() {
-    const files = [
-      'src/css/logout.css'
-    ]
-    files.forEach(v => {
+  function loadStyles() {
+    cssPaths.forEach(v => {
       $('<link/>', {
         rel: 'stylesheet',
         type: 'text/css',
@@ -25,17 +29,15 @@
     })
   }
 
-  function loadUI() {
+  function loadMenu() {
     const menu = $('#nb')
-    // console.log(menu)
     menu.append($('<div/>')
       .append($('<a/>')
         .html('Sign out')
         .attr('href', '#')
         .click(() => {
-          chrome.runtime.sendMessage({ action: 'logout' })
+          logout()
         })
       ))
   }
-
-})()
+})

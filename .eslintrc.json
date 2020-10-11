@@ -65,7 +65,7 @@
     "no-undef": "error",
     "no-unreachable": "error",
     "no-unused-vars": "warn",
-    "no-useless-return": "warn",
+    "no-useless-return": "off",
     "no-var": "error",
     "semi-spacing": "error",
     "semi-style": "error",

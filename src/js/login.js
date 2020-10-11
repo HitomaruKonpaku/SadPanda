@@ -1,24 +1,31 @@
-(function () {
-  'use strict'
+((global, factory) => {
+  if (global.SadPanda.isAuth) {
+    return
+  }
+  factory(global)
+})(this, global => {
+  console.debug('SadPanda#LogIn')
 
-  $(document).ready(() => {
-    if (window.SadPanda.isLoggedIn) return
-    console.log('SadPanda#LogIn')
-    run()
+  const htmlPath = 'src/html/login.html'
+  const cssPaths = [
+    'cdn/css/jquery.toast.min.css',
+    'cdn/css/bootstrap.min.css',
+    'src/css/login.css'
+  ]
+  const logoPath = 'src/img/sad-panda.jpg'
+
+  jQuery(() => {
+    // clearHead()
+    loadStyles()
+    loadBody()
   })
 
-  function run() {
-    loadCSS()
-    $('body').load(chrome.runtime.getURL('src/html/login.html'), loadUI)
+  function clearHead() {
+    $('head').html('')
   }
 
-  function loadCSS() {
-    const files = [
-      'cdn/css/bootstrap.min.css',
-      'cdn/css/vue-on-toast.min.css',
-      'src/css/login.css'
-    ]
-    files.forEach(v => {
+  function loadStyles() {
+    cssPaths.forEach(v => {
       $('<link/>', {
         rel: 'stylesheet',
         type: 'text/css',
@@ -27,63 +34,47 @@
     })
   }
 
-  function loadUI() {
-    const app = new Vue({
-      el: '#app',
-      data: {
-        username: '',
-        password: '',
-        remember: false,
-        disabled: false,
-        image: {
-          logo: {
-            github: chrome.runtime.getURL('src/img/GitHub-Mark-Light-64px.png')
-          }
+  function loadBody() {
+    $('body').load(
+      chrome.runtime.getURL(htmlPath),
+      loadApp
+    )
+  }
+
+  function loadApp() {
+    const App = {
+      data() {
+        return {
+          logoSrc: '',
+          username: '',
+          password: '',
+          isRemember: false,
+          isDisabled: false
         }
       },
-      computed: {},
-      mounted: function () {
+      mounted() {
+        this.logoSrc = chrome.runtime.getURL(logoPath)
         this.loadStorage()
-        this.popToastSuccess('Ready!')
-        this.$nextTick(() => { this.$refs.username.select() })
+        this.username = global.SadPanda.username || this.username || ''
+        this.password = global.SadPanda.password || this.password || ''
       },
       methods: {
-        popToast({ level, message }) {
-          const toast = {
-            type: level,
-            body: message,
-            timeout: 5000
-          }
-          this.$vueOnToast.pop(toast)
-        },
-        popToastSuccess(message) {
-          const level = 'success'
-          this.popToast({ level, message })
-        },
-        popToastError(message) {
-          const level = 'error'
-          this.popToast({ level, message })
-        },
         loadStorage() {
-          const remember = localStorage.getItem('exh_sddd')
-          if (remember === '1') {
-            this.remember = true
-          } else {
+          const isRemember = localStorage.getItem('exh_sddd')
+          if (isRemember !== '1') {
             return
           }
+          this.isRemember = true
           const username = localStorage.getItem('exh_user')
           const password = localStorage.getItem('exh_pass')
-          if (username) {
-            this.username = username
-          }
-          if (password) {
-            this.password = window.atob(password)
-          }
+          this.username = username
+          this.password = password
+
         },
         saveStorage() {
-          if (this.remember) {
+          if (this.isRemember) {
             localStorage.setItem('exh_user', this.username)
-            localStorage.setItem('exh_pass', window.btoa(this.password))
+            localStorage.setItem('exh_pass', this.password)
             localStorage.setItem('exh_sddd', '1')
             return
           }
@@ -91,47 +82,75 @@
           localStorage.removeItem('exh_pass')
           localStorage.removeItem('exh_sddd')
         },
+        onSubmit() {
+          this.login()
+        },
         login() {
-          //
-          this.disabled = true
-          //
+          this.isDisabled = true
           const username = encodeURIComponent(this.username)
           const password = encodeURIComponent(this.password)
-          //
           const url = 'https://forums.e-hentai.org/index.php?act=Login&CODE=01'
-          const dataObject = {
-            referer: 'https://forums.e-hentai.org/index.php',
-            UserName: username,
-            PassWord: password,
-            CookieDate: 1
+          const params = new URLSearchParams()
+          params.append('referer', 'https://forums.e-hentai.org/index.php')
+          params.append('UserName', username)
+          params.append('PassWord', password)
+          params.append('CookieDate', 1)
+          const body = params.toString()
+          const message = {
+            action: 'LOGIN',
+            data: { url, body }
           }
-          const data = Object.keys(dataObject)
-            .map(v => [v, dataObject[v]].join('='))
-            .join('&')
-          // Send message to background script
-          chrome.runtime.sendMessage({
-            action: 'login',
-            data: { url, data }
-          }, res => {
-            // Success
-            if (res.success) {
-              this.saveStorage()
-              this.popToastSuccess(res.success)
+          chrome.runtime.sendMessage(message, response => {
+            const error = response.error
+            if (error) {
+              const message = error.message
+              this.showErrorToast(message)
+              const redirect = error.redirect
+              if (redirect) {
+                setTimeout(() => {
+                  location.assign(redirect)
+                })
+                return
+              }
+              this.isDisabled = false
               return
             }
-            // Error or Fail
-            this.popToastError(res.error || res.fail)
-            this.enableUI()
+            this.saveStorage()
+            const message = 'You are now logged in!'
+            this.showSuccessToast(message)
           })
         },
-        enableUI() {
-          this.disabled = false
-          this.$nextTick(() => { this.$refs.username.select() })
+        showSuccessToast(text) {
+          $.toast(this.getToastOptions({
+            text,
+            icon: 'success',
+            bgColor: 'var(--success)'
+          }))
+        },
+        showErrorToast(text) {
+          $.toast(this.getToastOptions({
+            text,
+            icon: 'error',
+            bgColor: 'var(--danger)'
+          }))
+        },
+        getToastOptions(config) {
+          const options = {
+            showHideTransition: 'fade',
+            hideAfter: 3000,
+            position: 'bottom-right',
+            textColor: '#fff',
+            loaderBg: 'transparent',
+            ...config
+          }
+          return options
         }
       }
-    })
-    // console.log(app)
-    window.SadPanda.app = app
-  }
+    }
 
-})()
+    const app = Vue
+      .createApp(App)
+      .mount('#app')
+    global.SadPanda.app = app
+  }
+})
