@@ -1,43 +1,23 @@
-((global, factory) => {
-  factory(global)
-})(this, global => {
-  console.debug('SadPanda#LogOut')
+$(() => {
+  exSignOut();
+});
 
-  global.SadPanda.logout = () => logout()
-
-  const cssPaths = ['src/css/logout.css']
-
-  jQuery(() => {
-    if (!global.SadPanda.isAuth) {
-      return
-    }
-    loadStyles()
-    loadMenu()
-  })
-
-  function logout() {
-    chrome.runtime.sendMessage({ action: 'LOGOUT' })
+function exSignOut() {
+  const menu = $("#nb");
+  if (!menu) {
+    return;
   }
 
-  function loadStyles() {
-    cssPaths.forEach(v => {
-      $('<link/>', {
-        rel: 'stylesheet',
-        type: 'text/css',
-        href: chrome.runtime.getURL(v)
-      }).appendTo('head')
-    })
-  }
+  const img = $($("img", menu)[0]).clone();
+  const a = $($("a", menu)[0])
+    .clone()
+    .html("Sign out")
+    .attr("href", "#")
+    .attr("style", "color: #DDD;")
+    .on("click", async () => {
+      console.log("Sign out...");
+      await chrome.runtime.sendMessage({ action: "LOGOUT" });
+    });
 
-  function loadMenu() {
-    const menu = $('#nb')
-    menu.append($('<div/>')
-      .append($('<a/>')
-        .html('Sign out')
-        .attr('href', '#')
-        .click(() => {
-          logout()
-        })
-      ))
-  }
-})
+  menu.append(img, a);
+}

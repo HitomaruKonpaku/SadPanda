@@ -1,64 +1,28 @@
 <div
-  id="app"
-  class="app"
+  style="
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-decoration: none;
+  "
 >
-  <form @submit.prevent="onSubmit">
-    <div class="form-group">
-      <img
-        draggable="false"
-        :src="logoSrc"
-      >
-    </div>
-
-    <div class="form-group">
-      <input
-        type="text"
-        id="username"
-        class="form-control"
-        placeholder="Username"
-        required
-        autocomplete="username"
-        autofocus
-        v-model="username"
-        :disabled="isDisabled"
-      >
-    </div>
-
-    <div class="form-group">
-      <input
-        type="password"
-        id="password"
-        class="form-control"
-        placeholder="Password"
-        required
-        autocomplete="current-password"
-        v-model="password"
-        :disabled="isDisabled"
-      >
-    </div>
-
-    <div class="form-group form-check custom-control custom-switch">
-      <input
-        type="checkbox"
-        id="remember"
-        class="form-check-input custom-control-input"
-        v-model="isRemember"
-      >
-      <label
-        class="form-check-label custom-control-label"
-        for="remember"
-        :disabled="isDisabled"
-      >
-        Remember?
-      </label>
-    </div>
-
-    <button
-      type="submit"
-      class="btn btn-success btn-block btn-lg"
-      :disabled="isDisabled"
-    >
-      Login!
-    </button>
-  </form>
+  <div
+    id="button"
+    style="
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: #8e8e8e;
+      border: none;
+      color: white;
+      padding: 20px;
+      text-align: center;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      border-radius: 12px;
+      cursor: pointer;
+    "
+  >
+    Login on E-Hentai
+  </div>
 </div>

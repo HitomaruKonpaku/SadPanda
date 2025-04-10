@@ -1,8 +1,14 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "Sad Panda",
-  "version": "5.0",
+  "version": "6.0",
   "description": "Easy access to ExHentai",
+  "permissions": ["cookies", "tabs"],
+  "host_permissions": [
+    "*://e-hentai.org/*",
+    "*://*.e-hentai.org/*",
+    "*://exhentai.org/*"
+  ],
   "icons": {
     "16": "ico/16.png",
     "32": "ico/32.png",
@@ -11,37 +17,34 @@
     "128": "ico/128.png"
   },
   "background": {
-    "persistent": false,
-    "scripts": [
-      "src/js/background.js"
-    ]
+    "service_worker": "src/js/background.js"
   },
   "content_scripts": [
     {
-      "matches": [
-        "*://exhentai.org/*"
-      ],
-      "js": [
-        "cdn/js/jquery.min.js",
-        "cdn/js/jquery.toast.min.js",
-        "cdn/js/vue.global.prod.js",
-        "src/js/inject.js",
-        "src/js/login.js",
-        "src/js/logout.js"
-      ]
+      "matches": ["*://forums.e-hentai.org/*"],
+      "js": ["src/js/jquery.min.js", "src/js/return.js"],
+      "css": []
+    },
+    {
+      "matches": ["*://exhentai.org/", "*://exhentai.org/#"],
+      "js": ["src/js/jquery.min.js", "src/js/login.js"],
+      "css": []
+    },
+    {
+      "matches": ["*://exhentai.org/*"],
+      "js": ["src/js/logout.js"],
+      "css": []
     }
   ],
-  "permissions": [
-    "activeTab",
-    "cookies",
-    "tabs",
-    "*://exhentai.org/*",
-    "*://e-hentai.org/*",
-    "*://*.e-hentai.org/*"
-  ],
   "web_accessible_resources": [
-    "cdn/*",
-    "src/*"
+    {
+      "resources": ["src/html/login.html"],
+      "matches": [
+        "*://e-hentai.org/*",
+        "*://*.e-hentai.org/*",
+        "*://exhentai.org/*"
+      ]
+    }
   ],
   "homepage_url": "https://github.com/HitomaruKonpaku/SadPanda",
   "incognito": "split"
