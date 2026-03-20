@@ -1,25 +1,18 @@
 const timer = setInterval(() => {
-  const home = $("#userlinks > p.home > b");
+  const home = $('#userlinks > p.home > b')
 
-  console.log("home", home);
-
-  if (home.html()?.includes("")) {
+  if (home.length && home.text().trim()) {
     chrome.runtime.sendMessage(
       {
-        action: "LOGIN_SUCCESS",
+        action: 'LOGIN_SUCCESS',
       },
       (result) => {
-        console.log("login success");
+        clearInterval(timer)
 
-        if (typeof result === "string") {
-          clearInterval(timer);
-          window.location.href = result;
-        }
-
-        if (result === true) {
-          clearInterval(timer);
+        if (typeof result === 'string') {
+          window.location.href = result
         }
       }
-    );
+    )
   }
-}, 1000);
+}, 1000)

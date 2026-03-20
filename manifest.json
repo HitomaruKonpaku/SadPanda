@@ -3,7 +3,7 @@
   "name": "Sad Panda",
   "version": "6.0",
   "description": "Easy access to ExHentai",
-  "permissions": ["cookies", "tabs"],
+  "permissions": ["cookies", "tabs", "storage"],
   "host_permissions": [
     "*://e-hentai.org/*",
     "*://*.e-hentai.org/*",
@@ -26,7 +26,7 @@
       "css": []
     },
     {
-      "matches": ["*://exhentai.org/", "*://exhentai.org/#"],
+      "matches": ["*://exhentai.org/"],
       "js": ["src/js/jquery.min.js", "src/js/login.js"],
       "css": []
     },

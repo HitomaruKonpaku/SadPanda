@@ -1,0 +1,29 @@
+name: Build Extension
+
+on:
+  push:
+    branches: [master]
+    tags: ['v*']
+  pull_request:
+    branches: [master]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Package extension
+        run: zip -r SadPanda.zip manifest.json ico/ src/
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: SadPanda
+          path: SadPanda.zip
+
+      - name: Create release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: SadPanda.zip
