@@ -1,2 +1,3 @@
 # Sad-Panda
-Chrome extension to access ExHentai / Backup
+
+![sad-panda](src/img/sad-panda.jpg)
